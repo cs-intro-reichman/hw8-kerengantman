@@ -85,14 +85,22 @@ public class User {
      */
     public boolean removeFollowee(String name) {
         for (int i = 0; i < maxfCount; i++) {
-            if (follows[i].equals(name)) {
-                follows[i] = null;
-                fCount--;
-                return true;
+            if (name == null) {
+                return false;
             }
-        }
-        return false;
+            for (int i = 0; i < fCount; i++) {
+                if (this.follows[i] != null && this.follows[i].equals(name)) {
+                    for (int j = i; j < fCount - 1; j++) {
+                        this.follows[j] = this.follows[j + 1];
+                    }
+                    this.follows[fCount - 1] = null;
+                    fCount--;
+                    return true;
+                }
+            }
 
+            return false;
+        }
     }
 
     /**
@@ -105,7 +113,6 @@ public class User {
             for (int j = 0; j < maxfCount; j++) {
                 if (this.follows[i] != null && other.follows[j] != null && this.follows[i].equals(other.follows[j])) {
                     count++;
-                    return count;
                 }
             }
         }
