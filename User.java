@@ -88,9 +88,9 @@ public class User {
             if (name == null) {
                 return false;
             }
-            for (int i = 0; i < fCount; i++) {
-                if (this.follows[i] != null && this.follows[i].equals(name)) {
-                    for (int j = i; j < fCount - 1; j++) {
+            for (int k = 0; k < fCount; k++) {
+                if (this.follows[k] != null && this.follows[k].equals(name)) {
+                    for (int j = k; j < fCount - 1; j++) {
                         this.follows[j] = this.follows[j + 1];
                     }
                     this.follows[fCount - 1] = null;
@@ -99,8 +99,8 @@ public class User {
                 }
             }
 
-            return false;
         }
+        return false;
     }
 
     /**

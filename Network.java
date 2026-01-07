@@ -56,19 +56,11 @@ public class Network {
      * network, and returns true.
      */
     public boolean addUser(String name) {
-        if (name == null) {
+        if (users.length == userCount || getUser(name) != null) {
             return false;
         }
-
-        // Check if user already exists
-        if (getUser(name) != null) {
-            return false;
-        }
-        if (userCount >= users.length) {
-            return false;
-        }
-        users[userCount] = new User(name);
-        userCount++;
+        User newName = new User(name);
+        users[userCount] = newName;
         return true;
     }
 
@@ -79,25 +71,13 @@ public class Network {
      * or if the "follows" addition failed for some reason, returns false.
      */
     public boolean addFollowee(String name1, String name2) {
-      public boolean addFollowee(String name1, String name2) {
-    // Validate inputs
-    if (name1 == null || name2 == null) {
+        if (addUser(name1) == false || addUser(name2) == false) {
+            return false;
+        }
+        if (getUser(name1).addFollowee(name2) && getUser(name1).addFollowee(name1)) {
+            return true;
+        }
         return false;
-    }
-    
-    User user1 = getUser(name1);
-    
-    if (user1 == null) {
-        return false;
-    }
-        if (getUser(name2) == null) {
-        return false;
-    }
-        if (name1.equals(name2)) {
-        return false;
-    }
-        return user1.addFollowee(name2);
-} 
     }
 
     /**
