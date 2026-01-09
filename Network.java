@@ -59,6 +59,7 @@ public class Network {
         }
         User newName = new User(name);
         users[userCount] = newName;
+        userCount++;
         return true;
     }
 
@@ -69,10 +70,12 @@ public class Network {
      * or if the "follows" addition failed for some reason, returns false.
      */
     public boolean addFollowee(String name1, String name2) {
-        if (addUser(name1) == false || addUser(name2) == false) {
+        User user1 = getUser(name1);
+        User user2 = getUser(name2);
+        if (user1 == null || user2 == null) {
             return false;
         }
-        if (getUser(name1).addFollowee(name2) && getUser(name1).addFollowee(name1)) {
+        if (user1.addFollowee(name2)) {
             return true;
         }
         return false;
@@ -127,9 +130,9 @@ public class Network {
     private int followeeCount(String name) {
         int count = 0;
         for (int i = 0; i < userCount; i++) {
-            if (getUser(name).isFriendOf(users[i]) == true)
-                ;
-            count++;
+            if (users[i].follows(name) == true) {
+                count++;
+            }
         }
         return count;
     }

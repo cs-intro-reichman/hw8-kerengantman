@@ -67,15 +67,10 @@ public class User {
         if (follows(name) == true || fCount == maxfCount) {
             return false;
         } else {
-            for (int i = 0; i < maxfCount; i++) {
-                if (follows[i] == null) {
-                    follows[i] = name;
-                    fCount++;
-                    return true;
-                }
-            }
+            this.follows[fCount] = name;
+            fCount++;
+            return true;
         }
-        return false;
     }
 
     /**
@@ -84,21 +79,17 @@ public class User {
      * If the name is not in the list, does nothing and returns false.
      */
     public boolean removeFollowee(String name) {
-        for (int i = 0; i < maxfCount; i++) {
-            if (name == null) {
-                return false;
-            }
-            for (int k = 0; k < fCount; k++) {
-                if (this.follows[k] != null && this.follows[k].equals(name)) {
-                    for (int j = k; j < fCount - 1; j++) {
-                        this.follows[j] = this.follows[j + 1];
-                    }
-                    this.follows[fCount - 1] = null;
-                    fCount--;
-                    return true;
+        for (int k = 0; k < fCount; k++) {
+            if (this.follows[k].equals(name)) {
+                this.follows[k] = null;
+                for (int j = k; j < fCount - 1; j++) {
+                    this.follows[j] = this.follows[j + 1];
                 }
-            }
+                this.follows[fCount - 1] = null;
+                fCount--;
+                return true;
 
+            }
         }
         return false;
     }
@@ -109,9 +100,9 @@ public class User {
      */
     public int countMutual(User other) {
         int count = 0;
-        for (int i = 0; i < maxfCount; i++) {
-            for (int j = 0; j < maxfCount; j++) {
-                if (this.follows[i] != null && other.follows[j] != null && this.follows[i].equals(other.follows[j])) {
+        for (int i = 0; i < this.fCount; i++) {
+            for (int j = 0; j < other.fCount; j++) {
+                if (this.follows[i].equals(other.follows[j])) {
                     count++;
                 }
             }
